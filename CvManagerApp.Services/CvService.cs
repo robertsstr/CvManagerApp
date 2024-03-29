@@ -15,7 +15,7 @@ public class CvService : EntityService<Cv>, ICvService
         return await _context.Set<Cv>().AnyAsync(c =>
             c.FirstName == cv.FirstName &&
             c.LastName == cv.LastName &&
-            c.Email == cv.Email);
+            c.PhoneNumber == cv.PhoneNumber);
     }
 
     public async Task<Cv> GetFullCv(int id)

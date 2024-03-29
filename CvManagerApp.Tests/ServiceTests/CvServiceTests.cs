@@ -50,7 +50,7 @@ public class CvServiceTests
         {
             FirstName = "Bob",
             LastName = "Bobert",
-            Email = "bob@test.com"
+            PhoneNumber = "22222222"
         };
         await _service.Create(_cv);
 
@@ -69,7 +69,7 @@ public class CvServiceTests
         {
             FirstName = "Test",
             LastName = "User",
-            Email = "testuser@test.com"
+            PhoneNumber = "27777777"
         };
         await _service.Create(_cv);
 

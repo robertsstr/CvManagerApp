@@ -2,5 +2,5 @@
 
 public class SkillAchievementInputModel
 {
-    public string SkillOrAchievement { get; set; }
+    public string? SkillOrAchievement { get; set; }
 }
