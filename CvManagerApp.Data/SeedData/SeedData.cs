@@ -1,5 +1,4 @@
 ﻿using CvManagerApp.Core.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace CvManagerApp.Data.SeedData;
 

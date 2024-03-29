@@ -51,4 +51,3 @@ app.MapControllerRoute(
     pattern: "{controller=Cv}/{action=Home}/{id?}");
 
 app.Run();
-
