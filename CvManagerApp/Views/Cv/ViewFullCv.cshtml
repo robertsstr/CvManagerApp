@@ -1,0 +1,89 @@
+﻿@model CvManagerApp.Dtos.CvViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curriculum vitae</title>
+    <style>
+        
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12pt;
+            margin: 20px;
+        }
+
+        h1 {
+            font-size: 24pt;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 14pt;
+            margin-bottom: 10px;
+        }
+
+        .cv-section {
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Curriculum Vitae</h1>
+    <div class="cv-section">
+        <p><strong>vārds:</strong> @Model.FirstName</p>
+        <p><strong>uzvārds:</strong> @Model.LastName</p>
+        <p><strong>tel. numurs:</strong> @Model.PhoneNumber</p>
+        <p><strong>e-pasts:</strong> @Model.Email</p>
+        @if (!string.IsNullOrEmpty(Model.DateOfBirth))
+        {
+            <p><strong>dzimšanas datums:</strong> @Model.DateOfBirth</p>
+        }
+    </div>
+
+    @if (Model.Educations != null && Model.Educations.Any())
+    {
+        <div class="cv-section">
+            <h2>Izglītība</h2>
+            @foreach (var education in Model.Educations)
+            {
+                <p><strong>Iestāde:</strong> @education.EducationalEstablishment</p>
+                <p><strong>fakultāte:</strong> @education.Faculty</p>
+                <p><strong>studiju programma:</strong> @education.StudyProgram</p>
+                <p><strong>mācību status:</strong> @education.StudyStatus</p>
+            }
+        </div>
+    }
+    
+    @if (Model.WorkExperiences != null && Model.WorkExperiences.Any())
+    {
+        <div class="cv-section">
+            <h2>Darba Pieredze</h2>
+            @foreach (var workExperience in Model.WorkExperiences)
+            {
+                <p><strong>uzņēmums:</strong> @workExperience.Company</p>
+                <p><strong>amats:</strong> @workExperience.Position</p>
+                <p><strong>darba uzsākšana:</strong> @workExperience.StartDate</p>
+                <p><strong>darba beigas:</strong> @workExperience.EndDate</p>
+            }
+        </div>
+    }
+
+    @if (Model.SkillsAchievements != null && Model.SkillsAchievements.Any())
+    {
+        <div class="cv-section">
+            <h2>Prasmes/Sasniegumi</h2>
+            @foreach (var skillAchievement in Model.SkillsAchievements)
+            {
+                <p>@skillAchievement.SkillOrAchievement</p>
+            }
+        </div>
+    }
+</body>
+</html>

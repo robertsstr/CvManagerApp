@@ -1,0 +1,232 @@
+﻿@model CvManagerApp.Dtos.CvViewModel
+
+<h2>CV rediģēšana</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="FirstName">vārds</label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="LastName">uzvārds</label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PhoneNumber">tel. numurs</label>
+        <input asp-for="PhoneNumber" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email">epasts</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger" type="email"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DateOfBirth">dzimšanas datums</label>
+        <input asp-for="DateOfBirth" class="form-control" />
+        <span asp-validation-for="DateOfBirth" class="text-danger" type="date"></span>
+
+    </div>
+    
+    <h5>Izglītība</h5>
+    <div id="educationFields">
+        @if (Model.Educations != null)
+        {
+            @foreach (var education in Model.Educations)
+            {
+                <div class="education">
+                    <input type="hidden" name="Educations[@Model.Educations.IndexOf(education)].Id" value="@education.Id" />
+                    <div class="form-group">
+                        <label asp-for="@education.EducationalEstablishment">mācību iestāde</label>
+                        <input asp-for="@education.EducationalEstablishment" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@education.Faculty">fakultāte</label>
+                        <input asp-for="@education.Faculty" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@education.StudyProgram">studiju programma</label>
+                        <input asp-for="@education.StudyProgram" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@education.StudyStatus">mācību status</label>
+                        <input asp-for="@education.StudyStatus" class="form-control" />
+                    </div>
+                    <button type="button" class="btn btn-danger" onclick="deleteEducation(this, '@education.Id')">dzēst</button>
+                </div>
+            }
+        }
+    </div>
+    <button type="button" class="btn btn-primary" onclick="addEducation()">pievienot izglītību</button>
+    
+    <h5>Darba pieredze</h5>
+    <div id="workExperienceFields">
+        @if (Model.WorkExperiences != null)
+        {
+            @foreach (var workExperience in Model.WorkExperiences)
+            {
+                <div class="work-experience">
+                    <input type="hidden" name="WorkExperiences[@Model.WorkExperiences.IndexOf(workExperience)].Id" value="@workExperience.Id" />
+                    <div class="form-group">
+                        <label asp-for="@workExperience.Company">uzņēmums</label>
+                        <input asp-for="@workExperience.Company" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@workExperience.Position">amats</label>
+                        <input asp-for="@workExperience.Position" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@workExperience.StartDate">sākuma datums</label>
+                        <input asp-for="@workExperience.StartDate" class="form-control" />
+                    </div><div class="form-group">
+                        <label asp-for="@workExperience.EndDate">beigu datums</label>
+                        <input asp-for="@workExperience.EndDate" class="form-control" />
+                    </div>
+                    <button type="button" class="btn btn-danger" onclick="deleteWorkExperience(this, '@workExperience.Id')">dzēst</button>
+                </div>
+            }
+        }
+    </div>
+    <button type="button" class="btn btn-primary" onclick="addWorkExperience()">pievienot darba pieredzi</button>
+    
+    <h5>Prasmes/Sasniegumi</h5>
+    <div id="skillAchievementFields">
+        @if (Model.SkillsAchievements != null)
+        {
+            @foreach (var skillAchievement in Model.SkillsAchievements)
+            {
+                <div class="skill-achievement">
+                    <input type="hidden" name="SkillsAchievements[@Model.SkillsAchievements.IndexOf(skillAchievement)].Id" value="@skillAchievement.Id" />
+                    <div class="form-group">
+                        <label asp-for="@skillAchievement.SkillOrAchievement">Prasme vai sasniegums</label>
+                        <input asp-for="@skillAchievement.SkillOrAchievement" class="form-control" />
+                    </div>
+                    <button type="button" class="btn btn-danger" onclick="deleteSkillAchievement(this, '@skillAchievement.Id')">Dzēst</button>
+                </div>
+            }
+        }
+    </div>
+
+    <button type="button" class="btn btn-primary" onclick="addSkillAchievement()">pievienot prasmi/sasniegumu</button>
+
+    <button type="submit" class="btn btn-primary">Saglabāt</button>
+</form>
+
+@section Scripts {
+    <script>
+        async function deleteEducation(button, educationId) {
+            var educationDiv = button.closest(".education");
+            const response = await fetch(`/education/delete/${educationId}`, {
+                method: 'DELETE'
+            });   
+
+            educationDiv.remove();
+        }
+
+        function addEducation() {
+            var educationFields = document.getElementById("educationFields");
+            var educationCount = educationFields.getElementsByClassName("education").length;
+
+            var newEducationField = document.createElement("div");
+            newEducationField.classList.add("education");
+
+            newEducationField.innerHTML = `
+                <div class="form-group">
+                    <label>mācību iestāde:</label>
+                    <input type="text" name="Educations[${educationCount}].EducationalEstablishment" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>fakultāte:</label>
+                    <input type="text" name="Educations[${educationCount}].Faculty" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>studiju programma:</label>
+                    <input type="text" name="Educations[${educationCount}].StudyProgram" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>mācību status:</label>
+                    <input type="text" name="Educations[${educationCount}].StudyStatus" class="form-control">
+                </div>
+                <input type="hidden" name="Educations[${educationCount}].Id" value="">
+                <button type="button" class="btn btn-danger" onclick="deleteEducation(this)">dzēst</button>
+            `;
+
+            educationFields.appendChild(newEducationField);
+        }
+
+        async function deleteWorkExperience(button, workExperienceId) {
+            var workExperienceDiv = button.closest(".work-experience");
+            const response = await fetch(`/workexperience/delete/${workExperienceId}`, {
+                method: 'DELETE'
+            });
+
+            workExperienceDiv.remove();
+        }
+
+        function addWorkExperience() {
+            var workExperienceFields = document.getElementById("workExperienceFields");
+            var workExperienceCount = workExperienceFields.getElementsByClassName("work-experience").length;
+
+            var newWorkExperienceField = document.createElement("div");
+            newWorkExperienceField.classList.add("work-experience");
+
+            newWorkExperienceField.innerHTML = `
+                <div class="form-group">
+                    <label>uzņēmums:</label>
+                    <input type="text" name="WorkExperiences[${workExperienceCount}].Company" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>amats:</label>
+                    <input type="text" name="WorkExperiences[${workExperienceCount}].Position" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>sākuma datums:</label>
+                    <input type="date" name="WorkExperiences[${workExperienceCount}].StartDate" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>beigu datums:</label>
+                    <input type="date" name="WorkExperiences[${workExperienceCount}].EndDate" class="form-control">
+                </div>
+                <input type="hidden" name="WorkExperiences[${workExperienceCount}].Id" value="">
+                <button type="button" class="btn btn-danger" onclick="deleteWorkExperience(this)">dzēst</button>
+            `;
+
+            workExperienceFields.appendChild(newWorkExperienceField);
+        }
+
+        async function deleteSkillAchievement(button, skillAchievementId) {
+            var skillAchievementDiv = button.closest(".skill-achievement");
+            const response = await fetch(`/skillachievement/delete/${skillAchievementId}`, {
+                method: 'DELETE'
+            });
+
+            skillAchievementDiv.remove();
+        }
+
+        function addSkillAchievement() {
+            var skillAchievementFields = document.getElementById("skillAchievementFields");
+            var skillAchievementCount = skillAchievementFields.getElementsByClassName("skill-achievement").length;
+
+            var newSkillAchievementField = document.createElement("div");
+            newSkillAchievementField.classList.add("skill-achievement");
+
+            newSkillAchievementField.innerHTML = `
+                <div class="form-group">
+                    <label>prasme/sasniegums:</label>
+                    <input type="text" name="SkillsAchievements[${skillAchievementCount}].SkillOrAchievement" class="form-control" required>
+                </div>
+                <input type="hidden" name="SkillsAchievements[${skillAchievementCount}].Id" value="">
+                <button type="button" class="btn btn-danger" onclick="deleteSkillAchievement(this)">dzēst</button>
+            `;
+
+            skillAchievementFields.appendChild(newSkillAchievementField);
+        }
+    </script>
+}
