@@ -1,0 +1,38 @@
+﻿@model IEnumerable<CvManagerApp.Core.Models.Cv>
+
+<h1>CVs</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Pievienot Cv</a>
+</p>
+
+<div class="table-wrapper">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>vārds</th>
+            <th>uzvārds</th>
+            <th>tel. numurs</th>
+            <th>e-pasts</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="cv-row" data-cv-id="@item.Id">
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>@item.PhoneNumber</td>
+                <td>@item.Email</td>
+                <td>
+                    <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.Id">Rediģēt</a> |
+                    <a asp-action="Delete" class="btn btn-primary" asp-route-id="@item.Id">Dzēst</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+<script src="~/js/HomeScript.js"></script>

@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model CvManagerApp.Core.Models.Cv
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete CV</title>
+</head>
+<body>
+    <h2>CV tiks izdzēsts</h2>
+    <p>Vēlaties izdzēst CV?</p>
+    <form method="post">
+        <input type="submit" value="dzēst" class="btn btn-danger" />
+        <a asp-controller="Cv" asp-action="Home" class="btn btn-secondary">atcelt</a>
+    </form>
+</body>
+</html>

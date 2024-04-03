@@ -1,0 +1,44 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model CvManagerApp.Dtos.CvInputModel
+
+<form id="cvForm" method="post" asp-action="create">
+    <label asp-for="FirstName">vārds:</label>
+    <input asp-for="FirstName" class="form-control" required>
+    <span asp-validation-for="FirstName" class="text-danger"></span>
+    <br>
+    <label asp-for="LastName">uzvārds:</label>
+    <input asp-for="LastName" class="form-control" required>
+    <span asp-validation-for="LastName" class="text-danger"></span>
+    <br>
+    <label asp-for="PhoneNumber">tel. numurs:</label>
+    <input asp-for="PhoneNumber" class="form-control" required>
+    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    <br>
+    <label asp-for="Email">epasts:</label>
+    <input asp-for="Email" class="form-control">
+    <span asp-validation-for="Email" class="text-danger" type="email"></span>
+    <br>
+    <label asp-for="DateOfBirth">dzimšanas datums:</label>
+    <input asp-for="DateOfBirth" class="form-control" type="date">
+    <br>
+
+    <div id="educationFields">
+        <h5>Izglītība</h5>
+    </div>
+    <button type="button" class="btn btn-primary" onclick="addEducation()">pievienot izglītību</button>
+    <br>
+    <div id="workExperienceFields">
+        <h5>Darba pieredze</h5>
+    </div>
+    <button type="button" class="btn btn-primary" onclick="addWorkExperience()">pievienot darba pieredzi</button>
+    <br>
+    <div id="skillAchievementFields">
+        <h5>Prasmes/Sasniegumi</h5>
+    </div>
+    <button type="button" class="btn btn-primary" onclick="addSkillAchievement()">pievienot prasmi/sasniegumu</button>
+    <br>
+
+    <button type="submit" class="btn btn-primary">saglabāt</button>
+</form>
+
+<script src="~/js/CreateScript.js"></script>
