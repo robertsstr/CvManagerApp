@@ -14,6 +14,7 @@ public class EducationController : Controller
     }
 
     [HttpDelete("delete/{educationId}")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(int educationId)
     {
         await _educationService.DeleteEducationFromCv(educationId);

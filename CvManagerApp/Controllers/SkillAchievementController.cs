@@ -14,6 +14,7 @@ public class SkillAchievementController : Controller
     }
 
     [HttpDelete("delete/{skillAchievementId}")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(int skillAchievementId)
     {
         await _skillAchievementService.DeleteSkillAchievementFromCv(skillAchievementId);
