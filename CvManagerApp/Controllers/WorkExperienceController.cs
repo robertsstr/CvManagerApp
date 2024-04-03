@@ -14,6 +14,7 @@ public class WorkExperienceController : Controller
     }
 
     [HttpDelete("delete/{workExperienceId}")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(int workExperienceId)
     {
         await _workExperienceService.DeleteWorkExperienceFromCv(workExperienceId);

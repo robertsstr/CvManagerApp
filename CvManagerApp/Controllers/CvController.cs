@@ -33,6 +33,7 @@ public class CvController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     [Route("/create")]
     public async Task<IActionResult> Create(CvInputModel cvInput)
     {
@@ -66,6 +67,7 @@ public class CvController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     [Route("/edit/{id}")]
     public async Task<IActionResult> Edit(int id, CvViewModel cvEdited)
     {
